@@ -10,6 +10,6 @@ const router = Router();
 router.post("/signup", validate(authValidation.signup), authController.signup);
 
 // login route
-router.post("/login", (req, res) => res.send("Login Route"));
+router.post("/login", validate(authValidation.login), authController.login);
 
 export default router;
