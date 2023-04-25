@@ -1,0 +1,26 @@
+{
+  "name": "e-feed-api-demo",
+  "version": "1.0.0",
+  "description": "Demo api for express.js internship at efeed.in",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sayeed205/e-feed-demo-api.git"
+  },
+  "keywords": [
+    "internship",
+    "e-feed",
+    "expressjs",
+    "nodejs",
+    "backend"
+  ],
+  "author": "Sayed Ahmed",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sayeed205/e-feed-demo-api/issues"
+  },
+  "homepage": "https://github.com/sayeed205/e-feed-demo-api#readme"
+}
