@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import express from "express";
+import connectDB from "./configs/db.js";
 
 /* <!----------------------------------- LOAD ENV -----------------------------------> */
 if (process.env.NODE_ENV !== "production")
@@ -10,10 +11,7 @@ const app = express();
 
 const PORT = 5000 || process.env.PORT;
 
-app.get("/", (req, res) => {
-    res.send("Hello World");
-});
-
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+    await connectDB();
     console.log(`Server running on port ${PORT}`);
 });
