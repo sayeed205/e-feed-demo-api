@@ -23,7 +23,7 @@ const connectDB = async () => {
     } catch (error) {
         // Log any errors that occur and exit the process with an error code
         console.log(chalk.red(`Error: ${error.message}`));
-        // process.exit(1);
+        process.exit(1);
     }
 };
 

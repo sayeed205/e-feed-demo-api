@@ -1,6 +1,7 @@
 import { Joi } from "express-validation";
 import { mongoId } from "./custom.validation.js";
 
+// Joi validation schema for creating a new book
 const createBook = {
     body: Joi.object().keys({
         title: Joi.string().required(),
@@ -8,6 +9,7 @@ const createBook = {
     }),
 };
 
+// Joi validation schema for getting a list of books
 const getBooks = {
     query: Joi.object().keys({
         page: Joi.number().integer().min(1).allow(""),
@@ -16,12 +18,14 @@ const getBooks = {
     }),
 };
 
+// Joi validation schema for getting a single book by its ID
 const getBook = {
     params: Joi.object().keys({
         id: Joi.string().required().custom(mongoId),
     }),
 };
 
+// Joi validation schema for updating a book by its ID
 const updateBook = {
     params: Joi.object().keys({
         id: Joi.string().required().custom(mongoId),
@@ -34,6 +38,7 @@ const updateBook = {
         .min(1),
 };
 
+// Joi validation schema for deleting a book by its ID
 const deleteBook = {
     params: Joi.object().keys({
         id: Joi.string().required().custom(mongoId),

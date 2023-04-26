@@ -1,38 +1,43 @@
+// Import required modules
 import chalk from "chalk";
 import dotenv from "dotenv";
 import express from "express";
 import morgan from "morgan";
 
-/* <!----------------------------------- EXTRA IMPORTS -----------------------------------> */
+// Import custom modules
 import connectDB from "./configs/db.js";
+import "./configs/setEnv.js";
 import errorHandler from "./middleware/errorHandler.js";
-
-/* <!----------------------------------- IMPORT ROUTES -----------------------------------> */
 import authRouter from "./routes/auth.routes.js";
 import bookRouter from "./routes/book.routes.js";
 
-/* <!----------------------------------- LOAD ENV -----------------------------------> */
-if (process.env.NODE_ENV !== "production")
+// Load environment variables
+if (process.env.NODE_ENV !== "production") {
     dotenv.config({ path: ".env.local" });
-else dotenv.config({ path: ".env" });
+} else {
+    dotenv.config({ path: ".env" });
+}
 
+// Create an instance of express app
 const app = express();
 
-const PORT = 5000 || process.env.PORT;
+// Set up the port number
+const PORT = process.env.PORT || 5000;
 
-/* <!----------------------------------- MIDDLEWARE -----------------------------------> */
+// Set up middleware
 app.use(express.json());
 app.use(morgan("dev"));
 
-/* <!----------------------------------- ROUTES -----------------------------------> */
+// Set up routes
 app.use("/api/auth", authRouter);
 app.use("/api/books", bookRouter);
 
-/* <!----------------------------------- ERROR HANDLING -----------------------------------> */
+// Set up error handling middleware
 app.use(errorHandler);
 
-/* <!----------------------------------- SERVER & DB SETUP -----------------------------------> */
-app.listen(PORT, async () => {
+// Set up the server to listen to incoming requests
+const server = app.listen(PORT, async () => {
+    // Connect to the database
     await connectDB();
     console.log(
         chalk.blue("Server is running on port"),
@@ -45,10 +50,12 @@ app.listen(PORT, async () => {
     );
 });
 
-/* <!---------------------------- UNHANDLED REJECTION HANDLER ----------------------------> */
+// Handle unhandled rejections
 process.on("unhandledRejection", (err) => {
+    // Log the error message in red color
     console.log(chalk.red(`Error: ${err.message}`));
-    // Close server and exit process
+
+    // Close the server and exit the process
     console.log(err);
     server.close(() => {
         console.log(chalk.red("Server closed due to unhandled rejection"));
