@@ -8,10 +8,98 @@ const createBook = async (title, description, user_id) => {
     return book;
 };
 
-const getBooks = async () => {
-    const books = await Book.find().populate("author", "email");
+const getBooks = async (options) => {
+    const limit =
+        options.limit && parseInt(options.limit, 10) > 0
+            ? parseInt(options.limit, 10)
+            : 10;
+    const page =
+        options.page && parseInt(options.page, 10) > 0
+            ? parseInt(options.page, 10)
+            : 1;
+    const skip = (page - 1) * limit;
 
-    return books;
+    console.log(limit, page, skip);
+
+    const bookQuery = [
+        {
+            $lookup: {
+                from: "users",
+                localField: "author",
+                foreignField: "_id",
+                as: "author",
+            },
+        },
+        {
+            $unwind: "$author",
+        },
+        {
+            $match: {
+                $or: [
+                    { title: new RegExp(options.q, "i") },
+                    { "author.email": new RegExp(options.q, "i") },
+                ],
+            },
+        },
+        {
+            $project: {
+                title: 1,
+                description: 1,
+                author: {
+                    _id: 1,
+                    email: 1,
+                },
+            },
+        },
+    ];
+
+    const [books] = await Book.aggregate([
+        {
+            $facet: {
+                books: [
+                    ...bookQuery,
+                    {
+                        $skip: skip,
+                    },
+                    {
+                        $limit: limit,
+                    },
+                ],
+                totalBooks: [
+                    {
+                        $count: "totalBooks",
+                    },
+                ],
+                foundBooks: [
+                    ...bookQuery,
+                    {
+                        $count: "foundBooks",
+                    },
+                ],
+            },
+        },
+        {
+            $project: {
+                books: 1,
+                totalBooks: {
+                    $arrayElemAt: ["$totalBooks.totalBooks", 0],
+                },
+                foundBooks: {
+                    $arrayElemAt: ["$foundBooks.foundBooks", 0],
+                },
+            },
+        },
+    ]);
+
+    return {
+        books: books.books,
+        totalBooks: books.totalBooks,
+        foundBooks: books.foundBooks,
+        query: options.q,
+        page: page,
+        totalPages: Math.ceil(books.foundBooks / limit),
+        limit: limit,
+    };
 };
 
 const getBook = async (id) => {

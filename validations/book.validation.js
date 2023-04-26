@@ -8,6 +8,14 @@ const createBook = {
     }),
 };
 
+const getBooks = {
+    query: Joi.object().keys({
+        page: Joi.number().integer().min(1).allow(""),
+        limit: Joi.number().integer().min(1).allow(""),
+        q: Joi.string().allow(""),
+    }),
+};
+
 const getBook = {
     params: Joi.object().keys({
         id: Joi.string().required().custom(mongoId),
@@ -32,4 +40,4 @@ const deleteBook = {
     }),
 };
 
-export { createBook, getBook, updateBook, deleteBook };
+export { createBook, getBooks, getBook, updateBook, deleteBook };

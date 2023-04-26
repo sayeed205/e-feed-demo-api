@@ -12,7 +12,7 @@ const createBook = asyncHandler(async (req, res) => {
 });
 
 const getBooks = asyncHandler(async (req, res) => {
-    const data = await bookServices.getBooks();
+    const data = await bookServices.getBooks(req.query);
     res.status(200).json({ ok: true, data });
 });
 

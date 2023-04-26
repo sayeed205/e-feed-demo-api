@@ -7,7 +7,7 @@ import * as bookValidation from "../validations/book.validation.js";
 
 const router = Router();
 
-router.get("/", bookController.getBooks); // TODO)): add pagination
+router.get("/", validate(bookValidation.getBooks), bookController.getBooks);
 
 router.get("/:id", validate(bookValidation.getBook), bookController.getBook);
 
