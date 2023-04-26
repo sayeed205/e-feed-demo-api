@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import toJSON from "./plugins/toJSON.plugin.js";
 
 const bookSchema = new mongoose.Schema(
     {
@@ -19,6 +20,13 @@ const bookSchema = new mongoose.Schema(
         timestamps: true,
     }
 );
+
+bookSchema.plugin(toJSON);
+
+bookSchema.statics.isOwner = async function (book_id, user_id) {
+    const book = await this.findOne({ _id: book_id });
+    return book.author.equals(user_id);
+};
 
 const Book = mongoose.model("Book", bookSchema);
 

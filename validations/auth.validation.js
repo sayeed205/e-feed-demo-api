@@ -1,4 +1,5 @@
-import Joi from "joi";
+// import Joi from "joi";
+import { Joi } from "express-validation";
 import { Password } from "./custom.validation.js";
 
 const signup = {

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const ObjectId = (value, helpers) => {
+const mongoId = (value, helpers) => {
     if (mongoose.Types.ObjectId.isValid(value)) return value;
     return helpers.message("Invalid mongoDb Object Id");
 };
@@ -29,5 +29,4 @@ const Password = (value, helpers) => {
     return value;
 };
 
-export { ObjectId, Password };
-
+export { mongoId, Password };
