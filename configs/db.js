@@ -6,6 +6,7 @@ import * as mongoose from "mongoose";
  * @returns {Promise<object>} A promise that resolves to the connected database object.
  */
 const connectDB = async () => {
+    const DB_URI = process.env.MONGO_URI || "mongodb://localhost:27017/efeed";
     try {
         const conn = await mongoose.connect(process.env.MONGO_URI, {
             useNewUrlParser: true,
