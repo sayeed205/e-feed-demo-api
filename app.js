@@ -9,6 +9,7 @@ import errorHandler from "./middleware/errorHandler.js";
 
 /* <!----------------------------------- IMPORT ROUTES -----------------------------------> */
 import authRouter from "./routes/auth.routes.js";
+import bookRouter from "./routes/book.routes.js";
 
 /* <!----------------------------------- LOAD ENV -----------------------------------> */
 if (process.env.NODE_ENV !== "production")
@@ -25,6 +26,7 @@ app.use(morgan("dev"));
 
 /* <!----------------------------------- ROUTES -----------------------------------> */
 app.use("/api/auth", authRouter);
+app.use("/api/books", bookRouter);
 
 /* <!----------------------------------- ERROR HANDLING -----------------------------------> */
 app.use(errorHandler);
