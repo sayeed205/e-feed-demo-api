@@ -111,10 +111,10 @@ const getBooks = async (options) => {
     return {
         books: books.books,
         totalBooks: books.totalBooks,
-        foundBooks: books.foundBooks,
+        foundBooks: books.foundBooks || 0,
         query: options.q,
         page: page,
-        totalPages: Math.ceil(books.foundBooks / limit),
+        totalPages: Math.ceil(books.foundBooks / limit) || 1,
         limit: limit,
     };
 };
@@ -126,6 +126,7 @@ const getBooks = async (options) => {
  */
 const getBook = async (id) => {
     const book = await Book.findOne({ _id: id }).populate("author", "email");
+    if (!book) throw new ErrRes("Book not found", 404);
     return book;
 };
 
