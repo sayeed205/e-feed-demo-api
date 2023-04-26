@@ -19,7 +19,7 @@ To get started, clone the repository and install the dependencies:
 
 ```bash
 git clone https://github.com/sayeed205/e-feed-demo-api.git
-cd efeed-api-demo
+cd e-feed-demo-api
 yarn
 ```
 
